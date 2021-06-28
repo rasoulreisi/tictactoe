@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Reggae+One&display=swap" rel="stylesheet">
+
+</head>
+<style>
+
+    html , body{
+        font-family: 'Reggae One', cursive;
+        margin: 0;
+        height: 100%;
+        background: black;
+        box-sizing: border-box;
+    }
+    .tile {
+        position: relative;
+        display: inline-block;
+        width: 97px;
+        height: 97px;
+       /* border: 1px solid gray;*/
+        margin: 0;
+        cursor: pointer;
+        z-index: 0;
+    }
+
+    .r{
+        border-right: 1px solid #ffa200;
+    }
+
+    .b {
+        border-bottom: 1px solid #ffa200;
+    }
+
+    .l {
+        border-left: 1px solid #ffa200;
+    }
+
+    .board {
+        line-height: 0;
+        position: absolute;
+        top: 50%;
+        bottom: 50%;
+        right: 0;
+        left: 0;
+        color: white;
+        margin: auto;
+        width: 300px;
+        height: 300px;
+    }
+
+    .fill-x::after {
+        content: "";
+        position: absolute;
+        display: block;
+        height: 60px;
+        top: 25%;
+        color: white;
+        box-shadow: 0px 0px 10px 1px #ff0b00;
+        right: 50%;
+        left: 50%;
+        width: 3px;
+        background: white;
+        transform: rotate(45deg);
+    }
+
+    .fill-x::before {
+        content: "";
+        position: absolute;
+        top: 25%;
+        right: 50%;
+        box-shadow: 0px 0px 10px 1px #ff0b00;
+        color: white;
+        left: 50%;
+        display: block;
+        height: 60px;
+        width: 3px;
+        background: white;
+        transform: rotate(-45deg);
+    }
+
+    .fill-o::after {
+        content: "";
+        position: absolute;
+        left: 20%;
+        right: 20%;
+        top: 20px;
+        display: block;
+        width: 60px;
+        height: 60px;
+        box-shadow: 1px 1px 20px #0400ff;
+        border-radius: 50%;
+        border: 3px solid white;
+    }
+
+    .game-over::after{
+        content: "It's a Draw";
+        display: block;
+        position: absolute;
+        padding-top: 20px;
+        top: 45%;
+        bottom: 45%;
+        left: 0%;
+        right: 0%;
+        padding-left: 30px;
+        width: 100%;
+        height: 30px;
+        text-shadow: 1px 1px 3px white;
+        opacity: 1;
+        font-size: 50px;
+        color: red;
+        z-index: 5;
+    }
+
+    .win{
+        position: relative;
+        display: none;
+        background: rgba(0,109,8,.4);
+        z-index: 9;
+        line-height: 0;
+        color: white;
+        margin: auto;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        transition: visibility 1s;
+    }
+
+    .text-win::after{
+        content: attr(data);
+        opacity: 1!important;
+        position: absolute;
+        top: 50%;
+        text-align: center;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        font-size: 50px;
+        z-index: 9;
+        color: red!important;
+        text-shadow: 1px 1px 3px white;
+
+    }
+
+    .drop{
+        width: 100%;
+        opacity: .4;
+        background: #0049ff;
+        height: 100%;
+        display: none;
+        position: absolute;
+        z-index: 2;
+    }
+
+    .line{
+        position: absolute;
+        display: none;
+        width: 300px;
+        z-index: 2;
+        height: 4px;
+        background: #6100a0;
+        box-shadow: 0px 0px 5px 1px white;
+    }
+
+
+    .line0 {
+        top: calc(50vh - 100px);
+        left: calc(50vw - 150px);
+    }
+
+    .line1{
+        top: calc(50vh);
+        left: calc(50vw - 150px);
+    }
+
+    .line2{
+        top: calc(50vh + 100px);
+        left: calc(50vw - 150px);
+    }
+
+    .line3{
+        top: calc(50vh - 7px);
+        left: calc(50vw - 250px);
+        transform: rotate(90deg);
+    }
+
+    .line4{
+        top: calc(50vh - 7px);
+        left: calc(50vw - 150px);
+        transform: rotate(90deg);
+    }
+
+    .line5{
+
+        top: calc(50vh - 7px);
+        left: calc(50vw - 50px);
+        transform: rotate(90deg);
+    }
+
+    .line6{
+        top: calc(50vh - 0px);
+        left: calc(50vw - 150px);
+        transform: rotate(45deg);
+    }
+    .line7{
+        top: calc(50vh - 0px);
+        left: calc(50vw - 150px);
+        transform: rotate(-45deg);
+    }
+
+</style>
+<body>
+
+<div class="board">
+    <div class="tile r b " id="tile0" onclick="play(this)"></div><!--
+    --><div class="tile b r " id="tile1" onclick="play(this)"></div><!--
+    --><div class="tile b"id="tile2" onclick="play(this)"></div><!--
+    --><div class="tile r b" id="tile3" onclick="play(this)"></div><!--
+    --><div class="tile r b" id="tile4" onclick="play(this)"></div><!--
+    --><div class="tile b" id="tile5" onclick="play(this)"></div><!--
+    --><div class="tile r" id="tile6" onclick="play(this)"></div><!--
+    --><div class="tile r" id="tile7" onclick="play(this)"></div><!--
+    --><div class="tile" id="tile8" onclick="play(this)"></div><!--
+    -->
+</div>
+
+<div class="line" id="line0"></div>
+<div class="win text-win" >
+
+</div>
+<div class="drop"></div>
+<script src="tictac.js"></script>
+</body>
+</html>
